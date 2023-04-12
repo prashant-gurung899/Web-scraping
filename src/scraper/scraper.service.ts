@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { log } from 'console';
 import { data } from 'jquery';
 import * as puppeteer from 'puppeteer';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -9,7 +8,6 @@ export class ScraperService {
   constructor(private readonly prismaService: PrismaService){}
   async scrape() {
     const url = 'https://books.toscrape.com/';
-    // const url = 'https://www.booklifter.com';
     const browser = await puppeteer.launch({
       headless: false,
       defaultViewport: null,
@@ -40,10 +38,19 @@ export class ScraperService {
           imgSrc: book.imgSrc,
           stock: book.stock,
         },
+      //      for (const book of bookData) {
+      // await this.prismaService.book.create({
+      //   data: {
+      //     title: book.title,
+      //     rating: book.rating,
+      //     price: book.price,
+      //     imgSrc: book.imgSrc,
+      //     stock: book.stock,
+      //   },
       });
     }
 
     console.log(bookData);
-    // await browser.close();
+    await browser.close();
   }
 }
